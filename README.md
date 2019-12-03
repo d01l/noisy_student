@@ -25,12 +25,12 @@ Noisy student는 현실에서 볼 수 있는 teacher-student 관계를 기반으
 학습에 noisy로 사용되는 Rand Augment는 2개의 파라미터가 있습니다. 하나는 14개의 augment 방법들 중 몇가지를 선택할지를, 다른 하나는 augment 강도(1~10)의 upper bound 를 결정합니다. 다른 auto augmentation에 비하면 search space(14x10)가 굉장히 작지만 결국 여러번에 거쳐 파라미터 탐색을 해야했습니다. Grid search로 5000개의 데이터에 대해 최적의 파라미터를 찾았습니다. 모델의 크기가 변하거나 데이터가 달라지면 이에 적합한 Rand Augment 파라미터도 변할 수 있지만 시간과 resource 관계상 모든 실험에서 같은 파라미터를 사용하였습니다.
 
 ## Result
-![Result1](assets/result1.png)
-![Result2](assets/result2.png)
+<img src="assets/result1.png" width="500">
+<img src="assets/result2.png" width="500">
 
 먼저 RandAugmentation의 파라미터를 grid-serach로 찾았습니다. 시간과 리소스의 부족으로 가장 작은 Convnet5와 가장 큰 Resnet9에 대해 5000개의 data만으로 진행하였습니다. 그결과 RandAugmentation 두개의 파라미터가 (5, 10) 일 때 두 모델 Convnet5와 Resnet9 이 가장 높은 성능을 냈습니다. 따라서 이후 모든 학습에서 데이터의 양과 모델에 관계없이 (5, 10)을 적용하였습니다.
 
-RandAugmentation의 파라미터를 찾은 후 4개의 모델에 대해 noisy-student을 사용하지 않고 학습을 하였습니다. noisy-student사용하진 않았지만 noisy로 사용한 dropout과 auto-augmentation을 사용하였을 때 없을때와 비교하여 6~7%의 성능 향상이 있어 이를 적용하였습니다. RandAugmentation은 위에서 찾은 (5, 10)을 그대로 사용하였습니다. Convnet5는 63.6%의 accuracy를 보였고 모델이 커질수록 1~2%의 accuracy의 상승이 있었습니다. 이를 baseline으로 하여 noisy-student를 사용하였을때의 성능 향상을 관찰하였습니다.
+RandAugmentation의 파라미터를 찾은 후 4개의 모델에 대해 noisy-student을 사용하지 않고 학습을 하였습니다. noisy-student사용하진 않았지만 noisy로 사용한 dropout과 auto-augmentation을 사용하였을 때 없을때와 비교하여 6~7%의 성능 향상이 있어 이를 적용하였습니다. RandAugmentation은 위에서 찾은 (5, 10)을 그대로 사용하였습니다. Convnet5는 63.6\%의 accuracy를 보였고 모델이 커질수록 1~2\%의 accuracy의 상승이 있었습니다. 이를 baseline으로 하여 noisy-student를 사용하였을때의 성능 향상을 관찰하였습니다.
 
 가장 작은 모델인 Convnet5는 labeled data에 대해서만 학습하였습니다. 이후 noisy-student 방법으로 Convnet6는 Convnet5를, Resnet6는 Convnet6를, Resnet9은 Resnet6를 teacher로 하여 labeled data와 teacher model로 부터 생성한 pseudo label+unlabeled data에 대해 학습하였습니다. 학습결과 noisy-student를 사용한 것이 사용하지 않은 것보다 4~4.8%의 accuracy 향상이 있었습니다. 
 

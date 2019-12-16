@@ -51,10 +51,10 @@ pip install -r requirements.txt
 
 We do four things in the run.ipynb file.
 
-    Search RandAugment's parameters
+    1. Search RandAugment's parameters
 
-    Baseline performance of four models
+    2. Baseline performance of four models
 
-    Noisy-Student Execution
+    3. Noisy-Student Execution
 
-    Accurac, the largest model, Resnet9
+    4. Accurac, the largest model, Resnet9
